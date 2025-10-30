@@ -1,17 +1,32 @@
 #include "Library.h"
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <iomanip>
+
+using namespace std;
 
 // ---------------- Basic Operations ----------------
 
 void Library::addBook(const Book &book) {
+    for (const auto &b : books) {
+        if (b.getID() == book.getID()) {
+            cout << "\033[1;31mError:\033[0m Book ID already exists!\n";
+            return;
+        }
+    }
     books.push_back(book);
+    cout << "\033[1;32mBook added successfully!\033[0m\n";
 }
 
 void Library::addMember(const Member &member) {
+    for (const auto &m : members) {
+        if (m.getID() == member.getID()) {
+            cout << "\033[1;31mError:\033[0m Member ID already exists!\n";
+            return;
+        }
+    }
     members.push_back(member);
+    cout << "\033[1;32mMember added successfully!\033[0m\n";
 }
 
 // ---------------- Search ----------------
@@ -39,21 +54,21 @@ void Library::issueBook(int bookId, int memberId) {
     Member* member = findMember(memberId);
 
     if (!book) {
-        std::cout << "Book not found!\n";
+        cout << "\033[1;31mBook not found!\033[0m\n";
         return;
     }
     if (!member) {
-        std::cout << "Member not found!\n";
+        cout << "\033[1;31mMember not found!\033[0m\n";
         return;
     }
     if (book->getStatus()) {
-        std::cout << "Book already issued!\n";
+        cout << "\033[1;33mBook already issued!\033[0m\n";
         return;
     }
 
     book->issueBook();
     member->issueBook();
-    std::cout << "Book issued successfully to " << member->getName() << "!\n";
+    cout << "\033[1;32mBook issued successfully to " << member->getName() << "!\033[0m\n";
 }
 
 void Library::returnBook(int bookId, int memberId) {
@@ -61,70 +76,74 @@ void Library::returnBook(int bookId, int memberId) {
     Member* member = findMember(memberId);
 
     if (!book || !member) {
-        std::cout << "Invalid book or member ID!\n";
+        cout << "\033[1;31mInvalid book or member ID!\033[0m\n";
         return;
     }
 
     book->returnBook();
     member->returnBook();
-    std::cout << "Book returned successfully by " << member->getName() << "!\n";
+    cout << "\033[1;32mBook returned successfully by " << member->getName() << "!\033[0m\n";
 }
 
 // ---------------- Display ----------------
 
 void Library::displayBooks() const {
-    std::cout << "\n------ Book List ------\n";
+    if (books.empty()) {
+        cout << "\033[1;33mNo books available in the library.\033[0m\n";
+        return;
+    }
+
+    cout << "\n\033[1;36m------ Book List ------\033[0m\n";
     for (const auto &book : books)
         book.display();
 }
 
 void Library::displayMembers() const {
-    std::cout << "\n------ Member List ------\n";
+    if (members.empty()) {
+        cout << "\033[1;33mNo members registered in the library.\033[0m\n";
+        return;
+    }
+
+    cout << "\n\033[1;36m------ Member List ------\033[0m\n";
     for (const auto &member : members)
         member.display();
 }
 
-// ---------------- Save & Load Data  ----------------
+// ---------------- Save & Load Data ----------------
 
 void Library::saveData() {
-    // Save Books
-    std::ofstream bookFile("data/books.txt");
+    ofstream bookFile("data/books.txt");
     if (bookFile.is_open()) {
         for (const auto &book : books) {
-            bookFile << book.getID() << ","
-                     << book.getTitle() << ","
-                     << book.getAuthor() << ","
-                     << book.getStatus() << "\n";
+            bookFile << book.getID() << "," << book.getTitle() << ","
+                     << book.getAuthor() << "," << book.getStatus() << "\n";
         }
         bookFile.close();
     } else {
-        std::cout << "Error: Could not open data/books.txt for writing!\n";
+        cout << "\033[1;31mError: Unable to save books!\033[0m\n";
     }
 
-    // Save Members
-    std::ofstream memberFile("data/members.txt");
+    ofstream memberFile("data/members.txt");
     if (memberFile.is_open()) {
         for (const auto &member : members) {
-            memberFile << member.getID() << ","
-                       << member.getName() << ","
+            memberFile << member.getID() << "," << member.getName() << ","
                        << member.getBooksIssued() << "\n";
         }
         memberFile.close();
     } else {
-        std::cout << "Error: Could not open data/members.txt for writing!\n";
+        cout << "\033[1;31mError: Unable to save members!\033[0m\n";
     }
 }
 
 void Library::loadData() {
-    // Load Books
-    std::ifstream bookFile("data/books.txt");
+    ifstream bookFile("data/books.txt");
     if (bookFile.is_open()) {
         books.clear();
-        int id; std::string title, author; bool status;
+        int id; string title, author; bool status;
         while (bookFile >> id) {
             bookFile.ignore(1, ',');
-            std::getline(bookFile, title, ',');
-            std::getline(bookFile, author, ',');
+            getline(bookFile, title, ',');
+            getline(bookFile, author, ',');
             bookFile >> status;
             books.emplace_back(id, title, author);
             if (status) books.back().issueBook();
@@ -132,14 +151,13 @@ void Library::loadData() {
         bookFile.close();
     }
 
-    // Load Members
-    std::ifstream memberFile("data/members.txt");
+    ifstream memberFile("data/members.txt");
     if (memberFile.is_open()) {
         members.clear();
-        int id, issued; std::string name;
+        int id, issued; string name;
         while (memberFile >> id) {
             memberFile.ignore(1, ',');
-            std::getline(memberFile, name, ',');
+            getline(memberFile, name, ',');
             memberFile >> issued;
             members.emplace_back(id, name);
             for (int i = 0; i < issued; ++i)
@@ -153,14 +171,11 @@ void Library::loadData() {
 
 void Library::generateReport() const {
     int totalBooks = books.size();
-    int issuedBooks = 0;
-    int availableBooks = 0;
+    int issuedBooks = 0, availableBooks = 0;
 
     for (const auto &book : books) {
-        if (book.getStatus()) 
-            issuedBooks++;
-        else
-            availableBooks++;
+        if (book.getStatus()) issuedBooks++;
+        else availableBooks++;
     }
 
     int totalMembers = members.size();
@@ -174,37 +189,31 @@ void Library::generateReport() const {
         }
     }
 
-    std::cout << "\n------ Library Report ------\n";
-    std::cout << "Total Books: " << totalBooks << "\n";
-    std::cout << "Issued Books: " << issuedBooks << "\n";
-    std::cout << "Available Books: " << availableBooks << "\n";
-    std::cout << "Total Members: " << totalMembers << "\n";
+    cout << "\n\033[1;36m------ Library Report ------\033[0m\n";
+    cout << "Total Books: " << totalBooks << "\n";
+    cout << "Issued Books: " << issuedBooks << "\n";
+    cout << "Available Books: " << availableBooks << "\n";
+    cout << "Total Members: " << totalMembers << "\n";
 
     if (topMember)
-        std::cout << "Top Member (Most Books Issued): " 
-                  << topMember->getName() << " (" 
-                  << topMember->getBooksIssued() << " books)\n";
+        cout << "Top Member: " << topMember->getName()
+             << " (" << topMember->getBooksIssued() << " books)\n";
     else
-        std::cout << "No members found.\n";
+        cout << "No members found.\n";
 
-    std::cout << "-----------------------------\n";
+    cout << "\033[1;36m-----------------------------\033[0m\n";
 }
 
-
 void Library::listIssuedBooks() const {
-    std::cout << "\n----- Issued Books -----\n";
+    cout << "\n\033[1;36m----- Issued Books -----\033[0m\n";
     bool anyIssued = false;
-
     for (const auto &book : books) {
-        if (book.getStatus()) {  
+        if (book.getStatus()) {
             book.display();
             anyIssued = true;
         }
     }
-
     if (!anyIssued)
-        std::cout << "No books are currently issued.\n";
-
-    
-    std::cout << "-----------------------------\n";
+        cout << "\033[1;33mNo books are currently issued.\033[0m\n";
+    cout << "\033[1;36m-----------------------------\033[0m\n";
 }

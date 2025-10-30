@@ -2,44 +2,46 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
+int main() {
     Library lib;
-    lib.loadData(); // <-- load existing data on program start
+    lib.loadData();
 
     int choice;
-    while (true)
-    {
-        cout << "\n===== LIBRARY MANAGEMENT SYSTEM =====\n";
-        cout << "1. Add Book\n";
-        cout << "2. Add Member\n";
-        cout << "3. Issue Book\n";
-        cout << "4. Return Book\n";
-        cout << "5. Display All Books\n";
-        cout << "6. Display All Members\n";
-        cout << "7. Generate Library Report\n";
-        cout << "8. List All Issued Books\n";
-        cout << "0. Exit\n";
+    while (true) {
+        cout << "\n\033[1;36m========== LIBRARY MANAGEMENT SYSTEM ==========\033[0m\n";
+        cout << "\033[1;33m1.\033[0m Add Book\n";
+        cout << "\033[1;33m2.\033[0m Add Member\n";
+        cout << "\033[1;33m3.\033[0m Issue Book\n";
+        cout << "\033[1;33m4.\033[0m Return Book\n";
+        cout << "\033[1;33m5.\033[0m Display All Books\n";
+        cout << "\033[1;33m6.\033[0m Display All Members\n";
+        cout << "\033[1;33m7.\033[0m Generate Library Report\n";
+        cout << "\033[1;33m8.\033[0m List All Issued Books\n";
+        cout << "\033[1;31m0.\033[0m Exit\n";
         cout << "Enter your choice: ";
+
         cin >> choice;
 
-        if (choice == 0)
-        {
-            lib.saveData(); // <-- save before exit
-            cout << "Exiting... Data saved. Thank you!\n";
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "\033[1;31mInvalid input! Please enter a number.\033[0m\n";
+            continue;
+        }
+
+        if (choice == 0) {
+            lib.saveData();
+            cout << "\033[1;32mExiting... Data saved successfully. Thank you!\033[0m\n";
             break;
         }
 
-        switch(choice)
-        {
-            // ... cases 1..6 same as before ...
+        switch (choice) {
             case 1: {
                 int id; string title, author;
                 cout << "Enter Book ID: "; cin >> id; cin.ignore();
                 cout << "Enter Book Title: "; getline(cin, title);
                 cout << "Enter Author Name: "; getline(cin, author);
                 lib.addBook(Book(id, title, author));
-                cout << "Book added successfully!\n";
                 break;
             }
             case 2: {
@@ -47,7 +49,6 @@ int main()
                 cout << "Enter Member ID: "; cin >> id; cin.ignore();
                 cout << "Enter Member Name: "; getline(cin, name);
                 lib.addMember(Member(id, name));
-                cout << "Member added successfully!\n";
                 break;
             }
             case 3: {
@@ -64,22 +65,13 @@ int main()
                 lib.returnBook(bookId, memberId);
                 break;
             }
-            case 5:
-                lib.displayBooks();
-                break;
-            case 6:
-                lib.displayMembers();
-                break;
-            case 7:
-                lib.generateReport();
-                break;
-
-            case 8:
-                lib.listIssuedBooks();
-                break;
+            case 5: lib.displayBooks(); break;
+            case 6: lib.displayMembers(); break;
+            case 7: lib.generateReport(); break;
+            case 8: lib.listIssuedBooks(); break;
 
             default:
-                cout << "Invalid choice. Try again.\n";
+                cout << "\033[1;31mInvalid choice! Please try again.\033[0m\n";
         }
     }
 

@@ -9,19 +9,28 @@ The system allows efficient management of books, members, book issuing, returnin
 ## 🚀 Features
 
 ✅ Add new Books and Members  
-✅ Issue and Return Books  
+
+✅ Issue and Return Books
+
 ✅ Display all Books and Members  
+
 ✅ Prevent duplicate Book or Member IDs  
+
 ✅ Generate summarized Library Reports  
+
 ✅ List all currently issued Books  
+
 ✅ Save and Load data automatically from text files (`data/` folder)  
-✅ Error Handling and Input Validation  
+
+✅ Error Handling and Input Validation 
+
 ✅ Improved console formatting and colorized output for better user experience
 
 ---
 
 ## 🏗️ Project Structure
 
+```
 Library-Management-System/
 │
 ├── include/
@@ -48,6 +57,7 @@ Library-Management-System/
 │ └── test_member.exe
 │
 └── README.md
+```
 
 ---
 
@@ -71,10 +81,7 @@ In your project root directory, run:
 g++ -Iinclude src/main.cpp src/Book.cpp src/Member.cpp src/Person.cpp src/Library.cpp -o bin/library_system
 ```
 
-
 This will create an executable file in the `bin` folder.
-
-
 
 ---
 
@@ -85,8 +92,6 @@ After successful compilation, run:
 ```bash
 bin\library_system.exe
 ```
-
-
 
 You will see a menu like this:
 
@@ -102,10 +107,7 @@ You will see a menu like this:
 8. List All Issued Books
 0. Exit
 Enter your choice:
-
 ```
-
-
 
 ---
 
@@ -116,12 +118,9 @@ All books and members are stored persistently in:
 ```bash
 data/books.txt
 data/members.txt
-
 ```
 
 Data is automatically loaded when the program starts and saved when it exits.
-
-
 
 ---
 
@@ -135,10 +134,7 @@ Available Books: 6
 Total Members: 5
 Top Member (Most Books Issued): Riya Sharma (3 books)
 -----------------------------
-
 ```
-
-
 
 ---
 
@@ -160,8 +156,6 @@ Top Member (Most Books Issued): Riya Sharma (3 books)
 
 - Basic UI Enhancement (ANSI Color Codes)
 
-
-
 ---
 
 ### 🛡 Error Handling & Validation
@@ -170,8 +164,6 @@ Top Member (Most Books Issued): Riya Sharma (3 books)
 ✅ Handles empty file or list conditions gracefully  
 ✅ Validates invalid book/member IDs during issue and return  
 ✅ Displays clear and colorful error or success messages
-
-
 
 ---
 
@@ -194,8 +186,6 @@ Color-coded console output improves readability:
 > 
 > Or use **Windows Terminal** / **VS Code Terminal**, which supports colors natively.
 
-
-
 ---
 
 ## 🧩 Future Improvements
@@ -210,8 +200,6 @@ Color-coded console output improves readability:
 
 - Introduce a graphical UI (using Qt or web interface)
 
-
-
 ---
 
 ## 👨‍💻 Author
@@ -223,5 +211,3 @@ Color-coded console output improves readability:
 
 > **© 2025 Pratyush Jha — All Rights Reserved**  
 > This project is created for educational purposes only.  
-
-
