@@ -27,6 +27,10 @@ public:
     // Display all
     void displayBooks() const;
     void displayMembers() const;
+
+    // File I/O (Phase 6)
+    void loadData();
+    void saveData();
 };
 
 #endif // LIBRARY_H
