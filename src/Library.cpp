@@ -84,7 +84,7 @@ void Library::displayMembers() const {
         member.display();
 }
 
-// ---------------- Save & Load Data (Phase 6) ----------------
+// ---------------- Save & Load Data  ----------------
 
 void Library::saveData() {
     // Save Books
@@ -147,4 +147,64 @@ void Library::loadData() {
         }
         memberFile.close();
     }
+}
+
+// ---------------- Reports ----------------
+
+void Library::generateReport() const {
+    int totalBooks = books.size();
+    int issuedBooks = 0;
+    int availableBooks = 0;
+
+    for (const auto &book : books) {
+        if (book.getStatus()) 
+            issuedBooks++;
+        else
+            availableBooks++;
+    }
+
+    int totalMembers = members.size();
+    const Member* topMember = nullptr;
+    int maxIssued = -1;
+
+    for (const auto &m : members) {
+        if (m.getBooksIssued() > maxIssued) {
+            maxIssued = m.getBooksIssued();
+            topMember = &m;
+        }
+    }
+
+    std::cout << "\n------ Library Report ------\n";
+    std::cout << "Total Books: " << totalBooks << "\n";
+    std::cout << "Issued Books: " << issuedBooks << "\n";
+    std::cout << "Available Books: " << availableBooks << "\n";
+    std::cout << "Total Members: " << totalMembers << "\n";
+
+    if (topMember)
+        std::cout << "Top Member (Most Books Issued): " 
+                  << topMember->getName() << " (" 
+                  << topMember->getBooksIssued() << " books)\n";
+    else
+        std::cout << "No members found.\n";
+
+    std::cout << "-----------------------------\n";
+}
+
+
+void Library::listIssuedBooks() const {
+    std::cout << "\n----- Issued Books -----\n";
+    bool anyIssued = false;
+
+    for (const auto &book : books) {
+        if (book.getStatus()) {  
+            book.display();
+            anyIssued = true;
+        }
+    }
+
+    if (!anyIssued)
+        std::cout << "No books are currently issued.\n";
+
+    
+    std::cout << "-----------------------------\n";
 }

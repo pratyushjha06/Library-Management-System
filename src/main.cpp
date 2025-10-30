@@ -17,6 +17,8 @@ int main()
         cout << "4. Return Book\n";
         cout << "5. Display All Books\n";
         cout << "6. Display All Members\n";
+        cout << "7. Generate Library Report\n";
+        cout << "8. List All Issued Books\n";
         cout << "0. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
@@ -68,6 +70,14 @@ int main()
             case 6:
                 lib.displayMembers();
                 break;
+            case 7:
+                lib.generateReport();
+                break;
+
+            case 8:
+                lib.listIssuedBooks();
+                break;
+
             default:
                 cout << "Invalid choice. Try again.\n";
         }
