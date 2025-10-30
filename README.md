@@ -9,13 +9,21 @@ The system allows efficient management of books, members, book issuing, returnin
 ## 🚀 Features
 
 ✅ Add new Books and Members  
-✅ Issue and Return Books  
+
+✅ Issue and Return Books
+
 ✅ Display all Books and Members  
+
 ✅ Prevent duplicate Book or Member IDs  
+
 ✅ Generate summarized Library Reports  
+
 ✅ List all currently issued Books  
+
 ✅ Save and Load data automatically from text files (`data/` folder)  
-✅ Error Handling and Input Validation  
+
+✅ Error Handling and Input Validation 
+
 ✅ Improved console formatting and colorized output for better user experience
 
 ---
@@ -23,30 +31,55 @@ The system allows efficient management of books, members, book issuing, returnin
 ## 🏗️ Project Structure
 
 Library-Management-System/
+
 │
+
 ├── include/
+
 │ ├── Book.h
+
 │ ├── Member.h
+
 │ ├── Person.h
+
 │ └── Library.h
+
 │
+
 ├── src/
+
 │ ├── Book.cpp
+
 │ ├── Member.cpp
+
 │ ├── Person.cpp
+
 │ ├── Library.cpp
+
 │ └── main.cpp
+
 │
+
 ├── data/
+
 │ ├── books.txt
+
 │ └── members.txt
+
 │
+
 ├── bin/
+
 │ ├── library_system.exe
+
 │ ├── test_boox.exe
+
 │ ├── test_library.exe
+
 │ └── test_member.exe
+
 │
+
 └── README.md
 
 ---
