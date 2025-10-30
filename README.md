@@ -32,30 +32,55 @@ The system allows efficient management of books, members, book issuing, returnin
 
 ```
 Library-Management-System/
+
 │
+
 ├── include/
+
 │ ├── Book.h
+
 │ ├── Member.h
+
 │ ├── Person.h
+
 │ └── Library.h
+
 │
+
 ├── src/
+
 │ ├── Book.cpp
+
 │ ├── Member.cpp
+
 │ ├── Person.cpp
+
 │ ├── Library.cpp
+
 │ └── main.cpp
+
 │
+
 ├── data/
+
 │ ├── books.txt
+
 │ └── members.txt
+
 │
+
 ├── bin/
+
 │ ├── library_system.exe
+
 │ ├── test_boox.exe
+
 │ ├── test_library.exe
+
 │ └── test_member.exe
+
 │
+
 └── README.md
 ```
 
